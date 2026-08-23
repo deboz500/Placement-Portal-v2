@@ -1,0 +1,76 @@
+Create venv(windows)
+PS C:\VSCode\MAD2(Reattempt)\Placement-Portal-Application> python -m venv .env
+
+Activating venv
+PS C:\VSCode\MAD2(Reattempt)\Placement-Portal-Application> .env\Scripts\activate
+
+Create venv(wsl)
+PS C:\VSCode\MAD2(Reattempt)\Placement-Portal-Application> python3 -m venv .env
+
+Activating venv
+PS C:\VSCode\MAD2(Reattempt)\Placement-Portal-Application>source .env/bin/activate
+
+installing packages-
+pip install flask flask-sqlalchemy flask-security-too
+
+pip freeze > requirements.txt : adds the installed packages to the file
+
+delete instance folder:
+Remove-Item -Path "c:\VSCode\MAD2(Reattempt)\Placement-Portal-Application\instance" -Recurse -Force
+
+delete database:
+Remove-Item -Path "c:\VSCode\MAD2(Reattempt)\Placement-Portal-Application\instance\placementdb.sqlite3" -Force
+
+Running the application:
+
+T1: 
+(.env) deboz@Ringonomer:~/MAD2 Reattempt/Placement-Portal-Application$ redis-server
+
+(.env) deboz@Ringonomer:~/MAD2 Reattempt/Placement-Portal-Application$ sudo systemctl stop redis
+(.env) deboz@Ringonomer:~/MAD2 Reattempt/Placement-Portal-Application$ sudo lsof -i :6379
+(.env) deboz@Ringonomer:~/MAD2 Reattempt/Placement-Portal-Application$ redis-server
+T2: 
+deboz@Ringonomer:~/MAD2 Reattempt/Placement-Portal-Application$ source .env/bin/activate
+(.env) deboz@Ringonomer:~/MAD2 Reattempt/Placement-Portal-Application$ celery -A app.celery  worker --loglevel INFO
+
+T3:
+deboz@Ringonomer:~/MAD2 Reattempt/Placement-Portal-Application$ source .env/bin/activate
+(.env) deboz@Ringonomer:~/MAD2 Reattempt/Placement-Portal-Application$ python3 app.py
+
+T4:MailHog
+deboz@Ringonomer:~$ MailHog
+2026/07/05 22:57:19 Using in-memory storage
+2026/07/05 22:57:19 [SMTP] Binding to address: 0.0.0.0:1025
+[HTTP] Binding to address: 0.0.0.0:8025
+2026/07/05 22:57:19 Serving under http://0.0.0.0:8025/
+Creating API v1 with WebPath:
+Creating API v2 with WebPath:
+MailHog web address: http://localhost:8025/
+
+T5:CeleryBeat
+(.env) deboz@Ringonomer:~/MAD2 Reattempt/Placement-Portal-Application$ celery -A app.celery 
+beat --loglevel INFO
+
+T6: redis caching check
+
+(.env) deboz@Ringonomer:~/MAD2 Reattempt/Placement-Portal-Application$ redis-cli
+127.0.0.1:6379> select 2
+OK
+127.0.0.1:6379[2]> keys *
+1) "flask_cache_admin_dashboard"
+127.0.0.1:6379[2]> get flask_cache_admin_dashboard
+"!\x80\x05\x95\xdc\x04\x00\x00\x00\x00\x00\x00\x8c\x0eflask.wrappers\x94\x8c\bResponse\x94\x93\x94)\x81\x94}\x94(\x8c\aheaders\x94\x8c\x1fwerkzeug.datastructures.headers\x94\x8c\aHeaders\x94\x93\x94)\x81\x94}\x94\x8c\x05_list\x94]\x94(\x8c\x0cContent-Type\x94\x8c\x10application/json\x94\x86\x94\x8c\x0eContent-Length\x94\x8c\x03973\x94\x86\x94esb\x8c\a_status\x94\x8c\x06200 OK\x94\x8c\x0c_status_code\x94K\xc8\x8c\x12direct_passthrough\x94\x89\x8c\t_on_close\x94]\x94\x8c\bresponse\x94]\x94B\xcd\x03\x00\x00{\n  \"applications\": [\n    {\n      \"company\": \"JP Morgan\",\n      \"drive\": \"s\",\n      \"id\": 1,\n      \"status\": \"selected\",\n      \"student\": \"Debarshi Mukherjee\"\n    }\n  ],\n  \"closed_drives\": [],\n  \"companies\": [\n    {\n      \"approval\": \"approved\",\n      \"blacklisted\": false,\n      \"id\": 1,\n      \"name\": \"JP Morgan\"\n    },\n    {\n      \"approval\": \"approved\",\n      \"blacklisted\": false,\n      \"id\": 2,\n      \"name\": \"Google\"\n    }\n  ],\n  \"drives\": [\n    {\n      \"company\": \"JP Morgan\",\n      \"id\": 2,\n      \"job_title\": \"f\",\n      \"name\": \"s\",\n      \"status\": \"approved\"\n    },\n    {\n      \"company\": \"Google\",\n      \"id\": 3,\n      \"job_title\": \"Junior Developer\",\n      \"name\": \"Search Engine Optimization\",\n      \"status\": \"approved\"\n    }\n  ],\n  \"pending_companies\": [],\n  \"pending_drives\": [],\n  \"students\": [\n    {\n      \"blacklisted\": false,\n      \"cgpa\": 8.0,\n      \"department\": \"CMSA\",\n      \"id\": 1,\n      \"name\": \"Debarshi Mukherjee\",\n      \"year\": 4\n    }\n  ]\n}\n\x94aubK\xc8\x86\x94."
+
+
+requirements.txt content is garbled due to wsl. to view its contents do 
+cat requirements.txt
+
+
+credentials:
+deboz@gmail.com   student
+stevejordan@gmail.com   stevejordan
+jpm@gmail.com     jpm
+admin@gmail.com   admin123 
+googlejobs@gmail.com  google
+campus.hiring@flipkart.com  flipkart
+

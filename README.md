@@ -1,2 +1,2 @@
-# Placement-Portal-v2-
-This is an upgrade over the existing Placement Portal Application with added Backend Jobs using Celery and caching using RedisCache
+# Placement-Portal-Application
+Vue CDN and Flask based application to manage student and companies in placements

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="style.css">
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <div style="text-align:center; margin-bottom:28px">
+                <div style="width:56px;height:56px;background:#1a1a2e;border-radius:14px;
+                    display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+                    <i class="bi bi-briefcase-fill" style="color:#4f8ef7;font-size:24px"></i>
+                </div>
+                <h4>Welcome</h4>
+                <div class="subtitle">Sign in to HireWire</div>
+            </div>
+
+            <div v-if="message" :class="'pp-alert '+category">
+                <i class="bi bi-exclamation-circle me-1"></i>{{ message }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <div style="position:relative">
+                    <i class="bi bi-person" style="position:absolute;left:12px;top:50%;cursor:text;
+                        transform:translateY(-50%);color:#9ca3af"></i>
+                    <input type="text" class="form-control" style="padding-left:34px"
+                        v-model="username" placeholder="Enter your username"
+                        @keyup.enter="submitLogin" >
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="form-label">Password</label>
+                <div style="position:relative">
+                    <i class="bi bi-lock" style="position:absolute;left:12px;top:50%;
+                        transform:translateY(-50%);color:#9ca3af"></i>
+                    <input type="password" class="form-control" style="padding-left:34px"
+                        v-model="password" placeholder="Enter your password"
+                        @keyup.enter="">
+                </div>
+            </div>
+
+            <button class="btn-auth" @click="submitLogin">
+                <span v-if="loading">
+                    <i class="bi bi-arrow-repeat me-2"></i>Signing in...
+                </span>
+                <span v-else>Sign In</span>
+            </button>
+
+            <div class="auth-footer">
+                Don't have an account?
+                <router-link to="/register">Register here</router-link>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
